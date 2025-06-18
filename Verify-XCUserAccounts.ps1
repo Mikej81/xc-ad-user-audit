@@ -59,14 +59,17 @@ foreach ($item in $response.items) {
     try {
         $user = Get-MgUser -UserId $email -ErrorAction Stop
         $exists = "Yes"
+        $enabled = if ($user.accountEnabled) { "Yes" } else { "No" }
     }
     catch {
         $exists = "No"
+        $enabled = "N/A"
     }
 
     $results += [PSCustomObject]@{
         Email           = $email
         ExistsInAzureAD = $exists
+        Enabled         = $enabled
     }
 }
 
